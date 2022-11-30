@@ -2,6 +2,8 @@
 
 #![no_std]
 
+//! See docs with examples on [`UnwrapNone#required-methods`].
+
 use core::fmt;
 
 pub trait UnwrapNone {
