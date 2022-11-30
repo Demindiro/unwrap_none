@@ -1,5 +1,9 @@
 // Original source is from https://github.com/rust-lang/rust/pull/83349/files
 
+#![no_std]
+
+//! See docs with examples on [`UnwrapNone#required-methods`].
+
 use core::fmt;
 
 pub trait UnwrapNone {
@@ -13,9 +17,10 @@ pub trait UnwrapNone {
     /// # Examples
     ///
     /// ```
-    /// #![feature(option_expect_none)]
-    ///
     /// use std::collections::HashMap;
+    ///
+    /// use unwrap_none::UnwrapNone;
+    ///
     /// let mut squares = HashMap::new();
     /// for i in -10..=10 {
     ///     // This will not panic, since all keys are unique.
@@ -24,9 +29,10 @@ pub trait UnwrapNone {
     /// ```
     ///
     /// ```should_panic
-    /// #![feature(option_expect_none)]
-    ///
     /// use std::collections::HashMap;
+    ///
+    /// use unwrap_none::UnwrapNone;
+    ///
     /// let mut sqrts = HashMap::new();
     /// for i in -10..=10 {
     ///     // This will panic, since both negative and positive `i` will
@@ -34,7 +40,7 @@ pub trait UnwrapNone {
     ///     sqrts.insert(i * i, i).expect_none("duplicate key");
     /// }
     /// ```
-	fn expect_none(self, msg: &str);
+    fn expect_none(self, msg: &str);
 
     /// Consumes `self` while expecting [`None`] and returning nothing.
     ///
@@ -48,9 +54,10 @@ pub trait UnwrapNone {
     /// # Examples
     ///
     /// ```
-    /// #![feature(option_unwrap_none)]
-    ///
     /// use std::collections::HashMap;
+    ///
+    /// use unwrap_none::UnwrapNone;
+    ///
     /// let mut squares = HashMap::new();
     /// for i in -10..=10 {
     ///     // This will not panic, since all keys are unique.
@@ -59,9 +66,10 @@ pub trait UnwrapNone {
     /// ```
     ///
     /// ```should_panic
-    /// #![feature(option_unwrap_none)]
-    ///
     /// use std::collections::HashMap;
+    ///
+    /// use unwrap_none::UnwrapNone;
+    ///
     /// let mut sqrts = HashMap::new();
     /// for i in -10..=10 {
     ///     // This will panic, since both negative and positive `i` will
@@ -69,12 +77,12 @@ pub trait UnwrapNone {
     ///     sqrts.insert(i * i, i).unwrap_none();
     /// }
     /// ```
-	fn unwrap_none(self);
+    fn unwrap_none(self);
 }
 
 impl<T> UnwrapNone for Option<T>
 where
-	T: fmt::Debug
+    T: fmt::Debug,
 {
     #[inline]
     #[track_caller]
