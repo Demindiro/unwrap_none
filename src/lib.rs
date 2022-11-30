@@ -1,5 +1,7 @@
 // Original source is from https://github.com/rust-lang/rust/pull/83349/files
 
+#![no_std]
+
 use core::fmt;
 
 pub trait UnwrapNone {
