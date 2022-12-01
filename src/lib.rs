@@ -6,7 +6,7 @@
 
 use core::fmt;
 
-pub trait UnwrapNone {
+pub trait UnwrapNone<T> {
     /// Consumes `self` while expecting [`None`] and returning nothing.
     ///
     /// # Panics
@@ -78,9 +78,35 @@ pub trait UnwrapNone {
     /// }
     /// ```
     fn unwrap_none(self);
+
+    /// Calls the supplied closure only if the instance is `None`.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use unwrap_none::UnwrapNone;
+    ///
+    /// let input: Option<i32> = None;
+    ///
+    /// // The closure is not called because `input` is `None`.
+    /// input.unwrap_none_or_else(|val| panic!("Got unexpected value: {val}"));
+    /// ```
+    ///
+    /// ```should_panic
+    /// # use unwrap_none::UnwrapNone;
+    /// #
+    /// #
+    /// let input = Some(10);
+    ///
+    /// // The closure is called since `input` is `Some`.
+    /// input.unwrap_none_or_else(|val| panic!("Got unexpected value: {val}"));
+    /// ```
+    fn unwrap_none_or_else<F>(self, f: F)
+    where
+        F: FnOnce(T);
 }
 
-impl<T> UnwrapNone for Option<T>
+impl<T> UnwrapNone<T> for Option<T>
 where
     T: fmt::Debug,
 {
@@ -97,6 +123,16 @@ where
     fn unwrap_none(self) {
         if let Some(val) = self {
             expect_none_failed("called `Option::unwrap_none()` on a `Some` value", &val);
+        }
+    }
+
+    #[inline]
+    fn unwrap_none_or_else<F>(self, f: F)
+    where
+        F: FnOnce(T),
+    {
+        if let Some(val) = self {
+            f(val)
         }
     }
 }
