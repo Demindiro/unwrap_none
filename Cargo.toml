@@ -1,10 +1,9 @@
 [package]
 name = "unwrap_none"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["David Hoppenbrouwers <david@salt-inc.org>"]
 edition = "2021"
 license = "MIT"
 description = "Implements the `unwrap_none` and `expect_none` methods removed by https://github.com/rust-lang/rust/pull/83349"
 repository = "https://github.com/Demindiro/unwrap_none"
-
-[dependencies]
+documentation = "https://docs.rs/unwrap_none"
